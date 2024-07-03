@@ -1,0 +1,77 @@
+
+
+
+//Define Enum for months
+enum Month: String {
+  case january = "January"
+  case feburary = "Febuary"
+  case march = "March"
+  case april = "April"
+  case may = "May"
+  case june = "June"
+  case july = "July"
+  case august = "August"
+  case september = "September"
+  case october = "October"
+  case november = "November"
+  case december = "December"
+}
+
+//Define Protocols
+
+protocol Plantable {
+  var plantMonth: Month {get}
+  var plantingInstructions: String {get}
+}
+
+protocol Waterable {
+  var inchesOfWater: Int {get}
+  var wateringFrequency: String {get}
+  var wateringInstructions: String {get}
+}
+
+protocol Harvestable {
+  var harvestMonth: Month {get}
+  var harvestingInstructions: String {get}
+}
+
+protocol Gardenable: Plantable, Waterable, Harvestable {
+  func printGardeningTips()
+}
+
+extension Gardenable{
+  func printGardeningTips(){
+    print("Follow these Gardening 101 tips for a bountiful harvest.")
+    print("1) Make sure you always water your plant the exact amount that it needs.")
+    print(harvestingInstructions)
+    print("2) Make sure you know what zone that you're planting in to ensure that the plants you're planting are in their optimal environment.")
+  }
+}
+
+// First plant
+struct Kale: Gardenable {
+ //planting 
+ var plantMonth = Month.september
+ var plantingInstructions:String {"Kale should be planted 6 to 8 weeks before the first frost in in-ground gardens, raised beds, or containers."}
+//watering
+ var inchesOfWater = 2
+ var wateringFrequency = "weekly"
+ var wateringInstructions: String {
+  "Kale needs to be watered \(inchesOfWater) inches of water \(wateringFrequency)"
+ }
+//harvesting
+ var harvestMonth = Month.november
+ var harvestingInstructions: String {
+  "If you plant Kale in the begining of \(plantMonth), you should harvest it in \(harvestMonth)."
+ }
+}
+
+ //Create the func for Tips
+ func printTips<T: Gardenable>(for plants: [T]){
+  for plant in plants {
+    plant.printGardeningTips()
+  }
+ }
+
+var vegetables = [Kale()]
+printTips(for: vegetables)
